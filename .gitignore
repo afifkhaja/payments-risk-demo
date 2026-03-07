@@ -1,0 +1,31 @@
+# Environment variables
+.env
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+
+# H2 Database files
+*.mv.db
+*.trace.db
+data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# Build artifacts
+*.jar
+*.war
+*.class
+
+# Temporary files
+*.tmp
