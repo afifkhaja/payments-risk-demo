@@ -34,6 +34,11 @@ public class PaymentDecision {
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
 	
+	@PrePersist
+	public void onCreate() {
+		this.createdAt = LocalDateTime.now();
+	}
+
 	// Getters and setters
 	
 	public PaymentTransaction getTransaction() {

@@ -1,275 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content=""wdith=device-width, initial-scale="1.0">
-	<title>Payments Risk Decision Demo</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			margin: 0;
-			padding: 24px;
-			background: #f4f6f8;
-			color: #222;
-		}
-		
-		.container {
-			max-width: 1100px;
-			margin: 0 auto;
-		}
-		
-		.card {
-			background: #ffffff;
-			border-radius: 12px;
-			padding: 20px;
-			margin-bottom: 20px;
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-		}
-		
-		h1, h2{
-			margin-top: 0;
-		}
-		
-		.grid {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 12px;
-		}
-		
-		label {
-			display: block;
-			font-weight: bold;
-			margin-bottom: 6px;
-		}
-		
-		input, textarea, button {
-			width: 100%;
-			box-sizing: border-box;
-			padding: 10px;
-			border-radius: 8px;
-			border: 1px solid #c9d1d9;
-			font-size: 14px;
-		}
-		
-		textarea{
-			min-height: 120px;
-			resize: vertical;
-		}
-		
-		button{
-			background: #1f6feb;
-			color: white;
-			border: none;
-			cursor: pointer;
-			font-weight: bold;
-		}
-		
-		button:hover {
-			opacity: 0.95
-		}
-		
-		.full-width {
-			grid-column: 1 / -1;
-		}
-		
-		.result {
-			padding: 14px;
-			border-radius: 8px;
-			margin-top: 12px;
-			white-space: pre-wrap;
-		}		
-		
-		.approved {
-			background: #e8f5e9;
-			border: 1px solid #81c784;
-		}
-		
-		.denied{
-			background: rebeccapurple;
-			border: 1px solid #e57373;
-		}
-		
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			font-size: 14px;
-		}
-		
-		th, td{
-			text-align: left;
-			padding: 10px;
-			border-bottom: 1px solid #e5e7eb;
-			vertical-align: top;
-		}
-		
-		.muted {
-			color: #666;
-			font-size: 13px;
-		}
-		
-		@media (max-width: 800px){
-			.grid{
-				grid-template-columns: 1fr;
-			}	
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments Risk Decision Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        h1, h2 {
+            margin-top: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #c9d1d9;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            background: #1f6feb;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.95;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .result {
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 12px;
+            white-space: pre-wrap;
+        }
+
+        .approved {
+            background: #e8f5e9;
+            border: 1px solid #81c784;
+        }
+
+        .denied {
+            background: #ffebee;
+            border: 1px solid #e57373;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+
+        .muted {
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="containter">
-	<div class="card>
-		<h1>Payments risk Decision Demo</h1>
-		<p class="muted">Submit a transaction and let the backend call the OpenAI API for a structured decision.</p>			
-		
-		<form id="paymentForm" class="grid">
-			<div>
-				<label for="sender">Sender</label>
-				<input id="sender" name="sender" required />
-			</div>
-			
-			<div>
-				<label for="recipient">Recipient</label>
-				<input id="recipient" name="recipient" required />
-			</div>
-			
-			<div>
-				<label for="amount">Amount</label>
-				<input id="amount" name="amount" type="number" step="0.01" min="0.01" required />
-			</div>
-			
-			<div>
-				<label for="memo">Memo</label>
-				<input id="memo name="memo" required />
-			</div>
-			
-			<div class="full-width">
-				<label for="context">Contaxt / Explanation"</label>
-				<textarea id="context" name="context" required></textarea>
-			</div>
-					
-			<div class="full-width">
-				<button type="submit">Submit Transaction</button>
-			</div>"
-		</form>
-		
-		<div id="result"></div>			
-						
-		</div class="card">
-			<h2>Decision History</h2>
-			<button type="button" onclick="loadHistory()">Refresh History</button>
-			<div style="margin-top: 16px; overflow-x: auto;">
-				<table>
-					<thead>
-					<tr>
-						<th>ID</th>
-						<th>Sender</th>
-						<th>Recipient</th>
-						<th>Amount</th>
-						<th>Memo</th>
-						<th>Decision</th>
-						<th>Risk</th>
-						<th>Explanation</th>
-					</tr>
-					<thead>
-					<tbody id=""historyBody></tbody>
-				</table>
-		</div>
-	</div>
+<div class="container">
+    <div class="card">
+        <h1>Payments Risk Decision Demo</h1>
+        <p class="muted">Submit a transaction and let the backend call the OpenAI API for a structured decision.</p>
+
+        <form id="paymentForm" class="grid">
+            <div>
+                <label for="sender">Sender</label>
+                <input id="sender" name="sender" required />
+            </div>
+
+            <div>
+                <label for="recipient">Recipient</label>
+                <input id="recipient" name="recipient" required />
+            </div>
+
+            <div>
+                <label for="amount">Amount</label>
+                <input id="amount" name="amount" type="number" step="0.01" min="0.01" required />
+            </div>
+
+            <div>
+                <label for="memo">Memo</label>
+                <input id="memo" name="memo" required />
+            </div>
+
+            <div class="full-width">
+                <label for="context">Context / Explanation</label>
+                <textarea id="context" name="context" required></textarea>
+            </div>
+
+            <div class="full-width">
+                <button type="submit">Submit Transaction</button>
+            </div>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <div class="card">
+        <h2>Decision History</h2>
+        <button type="button" onclick="loadHistory()">Refresh History</button>
+        <div style="margin-top: 16px; overflow-x: auto;">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Sender</th>
+                    <th>Recipient</th>
+                    <th>Amount</th>
+                    <th>Memo</th>
+                    <th>Decision</th>
+                    <th>Risk</th>
+                    <th>Explanation</th>
+                </tr>
+                </thead>
+                <tbody id="historyBody"></tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-
-</body>
-</html>
-
 <script>
-	const form = document.getElementById("paymentForm");
-	const resultDiv = document.getElementById("result");
-	const historyBody = document.getElementById("historyBody")
-	
-	form.addEventListener("submit", async function(event){
-		event.preventDefault();
-		
-		const payload = {
-			sender: document.getElementById("sender").value,
-			recipient: document.getElementById("recipient").value,
-			amount: document.getElementById("amount").value,
-			memo: document.getElementById("memo").value,
-			context: document.getElementById("context").value
-			
-		};
-		
-		resultDiv.innerHTML = "<p>Submitting...</p>";
-		
-		try{
-			
-			const response = await fetch("/api/payments/decide", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(payload)
-			});
-			
-			if(!response.ok){
-				const errorText = await response.text();
-				throw new Error(errorText);
-			}
-			
-			const data = await response.json();
-			const cssClass = data.approved? "resolved approved" : "result denied";
-			
-			resultdiv.innerHTML = `
-				<div class="$cssClass}">
-					<strong>Decision:</strong> ${data.approved ? "APPROVED" : "DENIED"}<br>
-					<strong>Risk Score:</strong> ${datariskScore}<br>
-					<strong>Model:</strong> ${data.modelName}<br>
-					<strong>Explanation:</strong> ${data.explanation}
-				</div>
-			`;
-		
-			form.reset();
-			loadHistory();
-			
-		} catch(error){
-			resultDiv.innerHTML = `
-				<div class="result denied"
-					<strong>Error:</strong> ${error.message}
-					</div>
-			`;
-		}	
-		
-	});
-	
-	async function loadHistory(){
-		try{
-			const reponse = await fetch("/api/payments/history");
-			const items = await response.json();
-			
-			historyBody.innerHTML = "";
-			
-			for(const item of items){
-				const row = document.createElement("tr");
-				row.innerHTML = `
-					<td>${item.transactionId}</td>
-					<td>${item.sender}</td>
-					<td>${item.recipient}</td>
-					<td>${item.amount}</td>
-					<td>${item.memo}</td>
-					<td>${item.approved? "APPROVED" : "DENIED"}</td>
-					<td>${item.riskScore ?? ""}</td>
-					<td>${item.explanatioN}</td>
-				`;
-				historyBody.appendChild(row);
-			}
-		} catch(error){
-			historyBody.innerHTML =
-				<tr>
-					<td colspan="8">Unable to load history.</td>
-				</tr>
-			;	
-		}
-	}
-	
-	loadHistory
+    const form = document.getElementById("paymentForm");
+    const resultDiv = document.getElementById("result");
+    const historyBody = document.getElementById("historyBody");
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const payload = {
+            sender: document.getElementById("sender").value,
+            recipient: document.getElementById("recipient").value,
+            amount: document.getElementById("amount").value,
+            memo: document.getElementById("memo").value,
+            context: document.getElementById("context").value
+        };
+
+        resultDiv.innerHTML = "<p>Submitting...</p>";
+
+        try {
+            const response = await fetch("/api/payments/decide", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+
+            const data = await response.json();
+            const cssClass = data.approved ? "result approved" : "result denied";
+
+            resultDiv.innerHTML = `
+                <div class="${cssClass}">
+                    <strong>Decision:</strong> ${data.approved ? "APPROVED" : "DENIED"}<br>
+                    <strong>Risk Score:</strong> ${data.riskScore}<br>
+                    <strong>Model:</strong> ${data.modelName}<br>
+                    <strong>Explanation:</strong> ${data.explanation}
+                </div>
+            `;
+
+            form.reset();
+            loadHistory();
+        } catch (error) {
+            resultDiv.innerHTML = `
+                <div class="result denied">
+                    <strong>Error:</strong> ${error.message}
+                </div>
+            `;
+        }
+    });
+
+    async function loadHistory() {
+        try {
+            const response = await fetch("/api/payments/history");
+            const items = await response.json();
+
+            historyBody.innerHTML = "";
+
+            for (const item of items) {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.transactionId}</td>
+                    <td>${item.sender}</td>
+                    <td>${item.recipient}</td>
+                    <td>${item.amount}</td>
+                    <td>${item.memo}</td>
+                    <td>${item.approved ? "APPROVED" : "DENIED"}</td>
+                    <td>${item.riskScore ?? ""}</td>
+                    <td>${item.explanation}</td>
+                `;
+                historyBody.appendChild(row);
+            }
+        } catch (error) {
+            historyBody.innerHTML = `
+                <tr>
+                    <td colspan="8">Unable to load history.</td>
+                </tr>
+            `;
+        }
+    }
+
+    loadHistory();
 </script>
 </body>
 </html>

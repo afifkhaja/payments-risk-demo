@@ -35,7 +35,9 @@ public class OpenAIDecisionService {
 
 		return openAIClient.chat().completions().create(params).choices().stream()
 				.flatMap(choice -> choice.message().content().stream()).findFirst()
-				.orElseThrow(() -> new RuntimeException("OpenAI returned no decision."));
+				.orElseThrow(() -> new RuntimeException("OpenAI returned no decision.")); // .create(params) actually
+																							// sends the request to the
+																							// GPT model
 
 	}
 
