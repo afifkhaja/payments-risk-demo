@@ -1,126 +1,61 @@
-Payments Risk Decision Demo
+# AI-Assisted Payment Risk Decision Demo
 
+**Tech:** Java 17 · Spring Boot · AWS EC2 · OpenAI API · H2 Database
 
+## Overview
 
-Author: Afif Khaja  
+This demo simulates an **AI‑assisted payment risk decision system**
+similar to modern fraud / payment review platforms.
 
-Date: 03.07.2026
+A user submits a payment transaction and a natural‑language explanation
+through a simple web UI. The backend sends the request to an LLM, which
+produces a structured risk decision.
 
+The system stores both the transaction and the AI decision for auditing.
 
+## Architecture
 
-Overview
+User (HTML UI)
+→ Spring Boot Controller
+→ OpenAI API (LLM decision engine)
+→ Risk Decision (approve / deny + score + explanation)
+→ H2 Database persistence
 
+## Features
 
+-   Java 17 + Spring Boot backend
+-   AI‑generated payment risk decisions
+-   Structured decision output (approve / deny + risk score)
+-   File‑backed H2 database for auditability
+-   Simple embedded HTML UI
+-   Deployable as a single executable JAR
 
-A lightweight payments demo built with Java 17 and Spring Boot.  
+## Deployment
 
-Users submit a payment transaction and a short natural‑language
+The application is deployed to **AWS EC2**:
 
-explanation.  
+1.  Package Spring Boot app as executable JAR
+2.  Launch EC2 instance
+3.  Install Java 17 (Amazon Corretto)
+4.  Upload JAR and `.env` with OpenAI API key
+5.  Start app with:
 
+```{=html}
+nohup java -jar payment-risk-demo.jar
+```
 
+Application is available at:
 
-The backend sends the data to the OpenAI API (gpt 4o mini), which returns a
+    http://<EC2_PUBLIC_IP>:8080
 
-structured decision:
+## Purpose
 
-·	Approved / Denied
+This project demonstrates integration of:
 
-·	Explanation
+-   **Java / Spring Boot backend systems**
+-   **Cloud deployment on AWS**
+-   **AI-assisted decision systems**
+-   **Simple but auditable risk workflows**
 
-·	Optional risk score
-
-
-
-Transactions and AI decisions are stored in a file‑backed H2
-
-database so results are auditable and viewable through a simple
-
-history page.
-
-
-
-Tech Stack
-
-·	Java 17
-
-·	Spring Boot
-
-·	Spring Web
-
-·	Spring Data JPA
-
-·	H2 Database
-
-·	OpenAI Java SDK
-
-·	AWS EC2
-
-
-
-Application Architecture
-
-
-
-Controller → Service → OpenAI API → Repository → H2 Database
-
-
-
-Goal
-
-Demonstrate practical backend engineering skills including:
-
-\- API design
-
-\- Persistence
-
-\- Cloud deployment
-
-\- LLM‑driven decision logic in a payments workflow
-
-
-
-Database Architecture (2 tables)
-
-
-
-(1) payment\_transaction
-
----
-
-id
-
-sender
-
-recipient
-
-amount
-
-memo
-
-context
-
-created\_at
-
-
-
-(2) payment\_decision
-
----
-
-id
-
-transaction\_id
-
-approved
-
-explanation
-
-risk\_score
-
-model\_name
-
-raw\_response
-
-created\_at
-
+Built as a fast end‑to‑end prototype to illustrate how LLMs can assist
+payment and fraud decision pipelines.
