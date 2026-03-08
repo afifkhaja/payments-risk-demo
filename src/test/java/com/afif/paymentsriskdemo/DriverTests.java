@@ -1,4 +1,4 @@
-package com.afif.demo.paymentsriskdemo;
+package com.afif.paymentsriskdemo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
